@@ -138,5 +138,115 @@ train4.getPrototype(); // {constructor: f, toggleLights: f, lightsStatus: f, get
     property("data") tjat was build using the "constructor()" function of the "Train" class. That's because all the methods
     on the Train classdo not "live" on any of the instance objects of the "Train" class, instead they live on the prototype
     as will be confirmed in the next paragraph. 
+
+    Finally, the result of calling the "getPrototype()" method is the console logging of all the properties on the "prototype".
+    When the "class" syntax is used in JavaScript, this results in the "Only shared methods being stored on the prototype".
+    while the "constructor()" function sets up the mechanism for saving instance-specific values ("data") at the time of 
+    object instantiation. 
+
+    Thus, in conclusion, the class syntax in JavaScript allows use to clearly separate individual object's data - which exists
+    on the object instance itself, from the shared object's functionality (methods), which exists on the prototype and 
+    are shared by all object instances. 
+
+    However, this is not the whole story. 
+
+    It is possible to implement polymorphism using classes in JavaScript, by inheriting from the base class and then 
+    overriding the inherited behavior. To understand how this works, it is best to use an example. 
+
+    In the code that follow,s you will observer another class being coded, which is named "HighSpeedTrain" and inherits
+    from the "Train" class. 
+
+    This makes the "Train" class a base class, or the super-class of the "HighSpeedTrain" class. Put differently, the 
+    "HighSpeedTrain" class becomes the sub-class of the "Train" class, because it inherits from it. 
+
+    To inherit from one class to a new sub-class, JavaScript provides the "extends" keyword, which works just as follows. 
 */
+
+class HighSpeedTrain extends Train {
+
+}
+
+/*
+    As in the example, above, the sub-class syntax is consistent with how the base class is defined in JavaScript. The only
+    addition here is the "extends" keyword, and the name of the class which the sub-class inherits. 
+
+    Now you can describe how the "HighSpeedTrain" works. Again you can start by defining its constructor function. 
+*/
+
+class HighSpeedTrain extends Train {
+    constructor(passenger, highSpeedOn, color, lightsOn) {
+        super(color, lightsOn) ; 
+        this.passenger = passenger; 
+        this.highSpeedOn = highSpeedOn; 
+    }
+
+    toggleHighSpeed() {
+        this.higSpeedOn = !this.higSpeedOn; 
+        console.log('High speed status: ', this.lightsOn); 
+    }
+
+    toggleLights() {
+        super.toggleLights(); 
+        super.lightsStats(); 
+        console.log('Lights are 100% operational.'); 
+    }
+}
+
+/*
+    Notice the slight difference in syntax in the constructor of the "HighSpeedTrain" class, namely use of the "super"
+    keyword. 
+
+    In JavaScript classes, "super" is used to specify what property gets inherited from the super-class in the sub-class.
+
+    In this case, I choose to inherit both the properties from the "Train" super-class in the "HighSpeedTrain" sub-class
+
+    These properties are "color" and "lightsOn". 
+
+    Next, you add the additional properties of the HighSpeedTrain class inside its constructor, namely, the passengers
+    and highSpeedOn properties. 
+
+    Next, inside the constructor body, you use the "super" keyword and pass in the inherited "color" and "lightsOn" 
+    properties that come from the "Train" class. On subsequent lines you assign "passengers" to this.passengers
+    and highSpeedOn to this.highSpeedOn
+
+    Notice that in addition to the inherited properties, you also automatically inherit all the methods, that exist on 
+    the "Train" prototype, namely, the "toggleLights()", "lightsStatus()", "getSelf" and "getPrototype()" methods. 
+
+    Additionally, imagine you realized that you don't like how the "toggleLights()" method from the super-class works, 
+    and you want to implement it a bit differently in the sub-class. You can add it inside the HighSpeed Train class. 
+
+    So, how did you override the behavior of the original "toggleLights()" method? Well in the super-class, the 
+    "toggleLights()" method was defined as follows. 
+*/
+
+toggleLights() {
+    this.lightsOn = !this.lightsOn; 
+
+}
+
+/*
+    * You realized that the "HighSpeedTrain" method should reuse the existing behavior of the original "toggleLights()"
+    method, and so you used the "super.toggleLights()" syntax to inherit the entire super-class' method. 
+
+    Next, you also inherit the behavior of the super-class' "lightsStatus()" method - because you realize that you want to 
+    have the updated status of the "lightsOn" property logged to the console, whenever you invoke the "toggleLights()" 
+    method in the sub-class. 
+
+    Finally, you also add the third line in the re-implemented "toggleLights()" method, namely:
+*/
+console.log('Lights are 100% operational.'); 
+
+/*
+    you've added this third line to show that I can combine the "borrowed" method code from the super-class with your 
+    own custom code in the sub-class. 
+
+    Now you're ready to build some train objects. 
+*/
+var train5 = new Train('blue', false);
+var highSpeed1 = new HighSpeedTrain(200, false, 'green', false); 
+
+/// you've built the "train5" object of the "Train" class, and set its "color" to "blue" and its "lightsOn" to "false". 
+
+
+
 
